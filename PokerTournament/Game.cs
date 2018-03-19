@@ -147,7 +147,6 @@ namespace PokerTournament
                     ResultWriter(text);
                 }
             }
-            Console.Read();
         }
 
         // plays 1 round of poker

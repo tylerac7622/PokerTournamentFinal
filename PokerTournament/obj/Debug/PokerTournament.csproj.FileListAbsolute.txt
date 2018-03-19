@@ -28,9 +28,3 @@ C:\Game AI Online\Grading\Project3\PokerTournament v4\PokerTournament\obj\Debug\
 C:\Game AI Online\Grading\Project3\PokerTournament v4\PokerTournament\bin\Debug\PokerTournament.exe
 C:\Game AI Online\Grading\Project3\PokerTournament v4\PokerTournament\bin\Debug\PokerTournament.pdb
 C:\Game AI Online\Grading\Project3\PokerTournament v4\PokerTournament\obj\Debug\PokerTournament.csprojResolveAssemblyReference.cache
-Z:\IGMProfile\Desktop\PokerTournament Final\PokerTournament Final\PokerTournament\bin\Debug\PokerTournament.exe.config
-Z:\IGMProfile\Desktop\PokerTournament Final\PokerTournament Final\PokerTournament\obj\Debug\PokerTournament.exe
-Z:\IGMProfile\Desktop\PokerTournament Final\PokerTournament Final\PokerTournament\obj\Debug\PokerTournament.pdb
-Z:\IGMProfile\Desktop\PokerTournament Final\PokerTournament Final\PokerTournament\bin\Debug\PokerTournament.exe
-Z:\IGMProfile\Desktop\PokerTournament Final\PokerTournament Final\PokerTournament\bin\Debug\PokerTournament.pdb
-Z:\IGMProfile\Desktop\PokerTournament Final\PokerTournament Final\PokerTournament\obj\Debug\PokerTournament.csprojResolveAssemblyReference.cache
