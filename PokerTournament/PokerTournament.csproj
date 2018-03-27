@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TEMPBettingRound1.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Evaluate.cs" />
@@ -62,6 +63,8 @@
     <Compile Include="PlayerN.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TEMPBettingRound2.cs" />
+    <Compile Include="TEMPDraw.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
