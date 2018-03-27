@@ -20,6 +20,10 @@ namespace PokerTournament
             // list the hand
             ListTheHand(hand);
 
+            for (int i = 0; i < actions.Count; i++)
+            {
+                Console.Write(actions[i].ToString());
+            }
             // select an action
             string actionSelection = "";
             PlayerAction pa = null;
@@ -174,10 +178,18 @@ namespace PokerTournament
             int rank = Evaluate.RateAHand(hand, out highCard);
 
             // list your hand
-            Console.WriteLine("\nName: " + Name + " Your hand:   Rank: " + rank);
+            /*Console.WriteLine("\nName: " + Name + " Your hand:   Rank: " + rank);
             for (int i = 0; i < hand.Length; i++)
             {
                 Console.Write(hand[i].ToString() + " ");
+            }
+            Console.WriteLine();*/
+
+            //changed up the format for readability
+            Console.Write("\nName: " + Name + "\n\tRank: " + rank + "\n\tYour hand:");
+            for (int i = 0; i < hand.Length; i++)
+            {
+                Console.Write("\n\t " + hand[i].ToString() + " ");
             }
             Console.WriteLine();
         }

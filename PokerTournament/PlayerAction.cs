@@ -35,10 +35,14 @@ namespace PokerTournament
         // override ToString
         public override string ToString()
         {
-            return "Player: " + name +
+            /*return "Player: " + name +
                 " Action Phase: " + actionPhase +
                 " Action Name: " + actionName +
-                " Amount: " + amount;
+                " Amount: " + amount;*/
+            return "Player: " + name +
+                "  |  Action Phase: " + actionPhase +
+                " \n\tAction Name: " + actionName +
+                " ,   Amount: " + amount + "\n";
         }
     }
 }

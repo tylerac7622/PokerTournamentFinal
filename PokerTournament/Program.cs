@@ -40,7 +40,6 @@ namespace PokerTournament
             Player4 four = new Player4(4, "Player4", 1000);
             Player5 five = new Player5(5, "Player5", 1000);
             Player6 six = new Player6(6, "Player6", 1000);
-            Player7 seven = new Player7(7, "Player7", 1000);
             Player8 eight = new Player8(8, "Player8", 1000);
             Player9 nine = new Player9(9, "Player9", 1000);
             Player10 ten = new Player10(10, "Player10", 1000);
@@ -49,7 +48,7 @@ namespace PokerTournament
             Player p0 = null;
             Player p1 = null;
 
-            int num1 = 0;
+            /*int num1 = 0;
             do
             {
                 Console.Write("Select the first player (1 - 10): ");
@@ -91,12 +90,19 @@ namespace PokerTournament
                 case 8: p1 = eight; break;
                 case 9: p1 = nine; break;
                 case 10: p1 = ten; break;
-            }
+            }*/
+
+
+            Human h0 = new Human(0, "Joe", 1000);
+            //Human h1 = new Human(1, "Sue", 1000);
+            PlayerN pNew = new PlayerN(1, "PlayerN", 1000);
 
             // create the Game
-            Game myGame = new Game(p0, p1);
+            Game myGame = new Game(h0, pNew);
 
             myGame.Tournament(); // run the game
+
+            Console.ReadLine();
         }
     }
 }

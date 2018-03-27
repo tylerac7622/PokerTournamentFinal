@@ -1,0 +1,64 @@
+Starting round 1
+Ante for this round: 10
+Betting round 1:
+Player: PlayerN  |  Action Phase: Bet1 
+	Action Name: check ,   Amount: 0
+
+ 
+Player: Joe  |  Action Phase: Bet1 
+	Action Name: check ,   Amount: 0
+
+ 
+After Bet1, pot is 20
+ 
+Name: PlayerN
+Hand Rank: 1 
+Three of Diamonds Four of Spades Six of Hearts Seven of Hearts Ten of Clubs 
+
+ 
+Name: Joe
+Hand Rank: 1 
+Three of Spades Five of Diamonds Seven of Diamonds Nine of Spades King of Hearts 
+
+ 
+Betting round 2:
+Player: PlayerN  |  Action Phase: Bet2 
+	Action Name: check ,   Amount: 0
+
+ 
+Player: Joe  |  Action Phase: Bet2 
+	Action Name: check ,   Amount: 0
+
+ 
+After Bet2, pot is 20
+ 
+Joe has a better hand and wins 0
+
+After round 1, player status: 
+ Name: Joe Dealer: True Money: 1010
+ Name: PlayerN Dealer: False Money: 990
+ 
+Starting round 2
+Ante for this round: 10
+Betting round 1:
+Player: Joe  |  Action Phase: Bet1 
+	Action Name: check ,   Amount: 0
+
+ 
+Player: PlayerN  |  Action Phase: Bet1 
+	Action Name: check ,   Amount: 0
+
+ 
+After Bet1, pot is 20
+ 
+Name: Joe
+Hand Rank: 1 
+Three of Clubs Four of Hearts Six of Spades Eight of Spades Queen of Hearts 
+
+ 
+Name: PlayerN
+Hand Rank: 1 
+Five of Diamonds Six of Diamonds Seven of Hearts Jack of Diamonds King of Clubs 
+
+ 
+Betting round 2:

@@ -56,10 +56,10 @@
     <Compile Include="Player4.cs" />
     <Compile Include="Player5.cs" />
     <Compile Include="Player6.cs" />
-    <Compile Include="Player7.cs" />
     <Compile Include="Player8.cs" />
     <Compile Include="Player9.cs" />
     <Compile Include="PlayerAction.cs" />
+    <Compile Include="PlayerN.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
