@@ -46,7 +46,7 @@ namespace PokerTournament
             int rank = Evaluate.RateAHand(hand, out highCard);
 
             // list your hand
-            Console.Write("\nName: " + Name + "\n\tRank: " + rank + "\n\tTheir hand:");
+            Console.Write("\nName: " + Name + "\n\tRank: " + AIEvaluate.PrintRank(rank) + "\n\tTheir hand:");
             for (int i = 0; i < hand.Length; i++)
             {
                 Console.Write("\n\t " + hand[i].ToString() + " ");

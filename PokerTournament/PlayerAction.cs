@@ -39,10 +39,16 @@ namespace PokerTournament
                 " Action Phase: " + actionPhase +
                 " Action Name: " + actionName +
                 " Amount: " + amount;*/
-            return "Player: " + name +
+            /*return "Player: " + name +
                 "  |  Action Phase: " + actionPhase +
                 " \n\tAction Name: " + actionName +
-                " ,   Amount: " + amount + "\n";
+                " ,   Amount: " + amount + "\n";*/
+            String returnString = "Player: " + name + "  |  Action Phase: " + actionPhase + "\n    " + actionName;
+            if(amount > 0)
+            {
+                returnString += " - " + amount;
+            }
+            return returnString;
         }
     }
 }

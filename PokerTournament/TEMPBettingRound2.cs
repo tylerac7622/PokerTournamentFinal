@@ -15,7 +15,8 @@ namespace PokerTournament
         public PlayerAction BettingRound2(List<PlayerAction> actions, Card[] hand, PlayerN player)
         {
             //list the hand, but only for debugging. EVENTUALLY don't show this
-            ListTheHand(hand, player);
+            AIEvaluate.ListTheHand(hand, player.Name);
+
             PlayerAction pa = null;
             int amount = 10;
             ///Possible actions
@@ -26,27 +27,12 @@ namespace PokerTournament
             ///  fold
             ///      Doing any action at the wrong time defaults to fold (player sacrifices their hand)
             ///      
-            //pa = new PlayerAction(Name, "Bet2", "bet", amount);
-            //pa = new PlayerAction(Name, "Bet2", "raise", amount);
+            //pa = new PlayerAction(player.Name, "Bet2", "bet", amount);
+            //pa = new PlayerAction(player.Name, "Bet2", "raise", amount);
             pa = new PlayerAction(player.Name, "Bet2", "check", 0);
-            //pa = new PlayerAction(Name, "Bet2", "call", 0);
-            //pa = new PlayerAction(Name, "Bet2", "fold", 0);
+            //pa = new PlayerAction(player.Name, "Bet2", "call", 0);
+            //pa = new PlayerAction(player.Name, "Bet2", "fold", 0);
             return pa;
-        }
-
-        private void ListTheHand(Card[] hand, PlayerN player)
-        {
-            // evaluate the hand
-            Card highCard = null;
-            int rank = Evaluate.RateAHand(hand, out highCard);
-
-            // list your hand
-            Console.Write("\nName: " + player.Name + "\n\tRank: " + rank + "\n\tTheir hand:");
-            for (int i = 0; i < hand.Length; i++)
-            {
-                Console.Write("\n\t " + hand[i].ToString() + " ");
-            }
-            Console.WriteLine();
         }
     }
 }

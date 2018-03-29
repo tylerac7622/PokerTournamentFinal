@@ -20,10 +20,10 @@ namespace PokerTournament
             // list the hand
             ListTheHand(hand);
 
-            for (int i = 0; i < actions.Count; i++)
+            /*for (int i = 0; i < actions.Count; i++)
             {
                 Console.Write(actions[i].ToString());
-            }
+            }*/
             // select an action
             string actionSelection = "";
             PlayerAction pa = null;
