@@ -14,11 +14,11 @@ namespace PokerTournament
         //  hand is the player's current hand
         public PlayerAction BettingRound1(List<PlayerAction> actions, Card[] hand, PlayerN player)
         {
-            //hand[0] = new Card("Spades", 2);
-            //hand[1] = new Card("Spades", 3);
-            //hand[2] = new Card("Diamonds", 4);
-            //hand[3] = new Card("Spades", 5);
-            //hand[4] = new Card("Spades", 14);
+            hand[0] = new Card("Spades", 10);
+            hand[1] = new Card("Spades", 11);
+            hand[2] = new Card("Diamonds", 12);
+            hand[3] = new Card("Spades", 13);
+            hand[4] = new Card("Spades", 12);
 
             //list the hand, but only for debugging. EVENTUALLY don't show this
             AIEvaluate.ListTheHand(hand, player.Name);
@@ -131,63 +131,6 @@ namespace PokerTournament
             //pa = new PlayerAction(player.Name, "Bet1", "call", 0);
             //pa = new PlayerAction(player.Name, "Bet1", "fold", 0);
             return pa;
-        }
-
-        private List<Card> AllColor(Card[] hand, String color)
-        {
-            List<Card> cardColor = new List<Card>();
-            for (int i = 0; i < hand.Length; i++)
-            {
-                if (color == "red" && (hand[i].Suit == "Hearts" || hand[i].Suit == "Diamonds"))
-                {
-                    cardColor.Add(hand[i]);
-                }
-                if (color == "black" && (hand[i].Suit == "Spades" || hand[i].Suit == "Clubs"))
-                {
-                    cardColor.Add(hand[i]);
-                }
-            }
-            return cardColor;
-        }
-        private List<Card> AllSuit(Card[] hand, String suit)
-        {
-            List<Card> cardSuit = new List<Card>();
-            for (int i = 0; i < hand.Length; i++)
-            {
-                if (suit == hand[i].Suit)
-                {
-                    cardSuit.Add(hand[i]);
-                }
-            }
-            return cardSuit;
-        }
-        private List<Card> AllValue(Card[] hand, String value)
-        {
-            List<Card> cardValue = new List<Card>();
-            if(value == "J")
-            {
-                value = "11";
-            }
-            if (value == "Q")
-            {
-                value = "12";
-            }
-            if (value == "K")
-            {
-                value = "13";
-            }
-            if (value == "A")
-            {
-                value = "1";
-            }
-            for (int i = 0; i < hand.Length; i++)
-            {
-                if (value == hand[i].Value + "")
-                {
-                    cardValue.Add(hand[i]);
-                }
-            }
-            return cardValue;
         }
     }
 }

@@ -34,3 +34,9 @@ Z:\IGMProfile\Desktop\GitHub\PokerTournamentFinal\PokerTournament\obj\Debug\Poke
 Z:\IGMProfile\Desktop\GitHub\PokerTournamentFinal\PokerTournament\bin\Debug\PokerTournament.exe
 Z:\IGMProfile\Desktop\GitHub\PokerTournamentFinal\PokerTournament\bin\Debug\PokerTournament.pdb
 Z:\IGMProfile\Desktop\GitHub\PokerTournamentFinal\PokerTournament\obj\Debug\PokerTournament.csprojResolveAssemblyReference.cache
+C:\Users\tyler\Documents\GitHub\PokerTournamentFinal\PokerTournament\bin\Debug\PokerTournament.exe.config
+C:\Users\tyler\Documents\GitHub\PokerTournamentFinal\PokerTournament\obj\Debug\PokerTournament.exe
+C:\Users\tyler\Documents\GitHub\PokerTournamentFinal\PokerTournament\obj\Debug\PokerTournament.pdb
+C:\Users\tyler\Documents\GitHub\PokerTournamentFinal\PokerTournament\bin\Debug\PokerTournament.exe
+C:\Users\tyler\Documents\GitHub\PokerTournamentFinal\PokerTournament\bin\Debug\PokerTournament.pdb
+C:\Users\tyler\Documents\GitHub\PokerTournamentFinal\PokerTournament\obj\Debug\PokerTournament.csprojResolveAssemblyReference.cache

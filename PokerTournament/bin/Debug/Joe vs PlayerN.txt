@@ -2,5 +2,5 @@ Starting round 1
 Ante for this round: 10
 Betting round 1:
 Player: PlayerN  |  Action Phase: Bet1
-    check
+    bet - 10
  
