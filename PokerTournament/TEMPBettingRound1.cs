@@ -88,19 +88,59 @@ namespace PokerTournament
                 }
                 else if (pRank >= 9)
                 {
-                    willingBet += 10;
-                    willingCheck += 10;
+                    willingBet += 15;
+                    willingCheck += 15;
                 }
             }
             else if (rank == 3)
             {
                 willingBet = 20;
                 willingCheck = 30;
+                if (pRank == 5)
+                {
+                    willingBet += 0;
+                    willingCheck += 5;
+                }
+                else if (pRank == 6)
+                {
+                    willingBet += 5;
+                    willingCheck += 10;
+                }
+                else if (pRank == 7)
+                {
+                    willingBet += 10;
+                    willingCheck += 10;
+                }
+                else if (pRank >= 9)
+                {
+                    willingBet += 15;
+                    willingCheck += 15;
+                }
             }
             else if (rank == 4)
             {
                 willingBet = 20;
                 willingCheck = 30;
+                if (pRank == 5)
+                {
+                    willingBet += 0;
+                    willingCheck += 5;
+                }
+                else if (pRank == 6)
+                {
+                    willingBet += 5;
+                    willingCheck += 10;
+                }
+                else if (pRank == 8)
+                {
+                    willingBet += 10;
+                    willingCheck += 10;
+                }
+                else if (pRank >= 9)
+                {
+                    willingBet += 15;
+                    willingCheck += 15;
+                }
             }
             else if (rank == 5)
             {
