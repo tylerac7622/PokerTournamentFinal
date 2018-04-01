@@ -14,11 +14,19 @@ namespace PokerTournament
         public PlayerAction Draw(Card[] hand, PlayerN player)
         {
             // DEBUG HAND
-            hand[0] = new Card("Hearts", 14);
-            hand[1] = new Card("Spades", 13);
-            hand[2] = new Card("Diamonds", 12);
-            hand[3] = new Card("Clubs", 11);
-            hand[4] = new Card("Spades", 9);
+            // test potential flush from one pair
+            //hand[0] = new Card("Hearts", 14);
+            //hand[1] = new Card("Spades", 14);
+            //hand[2] = new Card("Hearts", 2);
+            //hand[3] = new Card("Hearts", 4);
+            //hand[4] = new Card("Hearts", 9);
+
+            // test potential straight from one pair
+            //hand[0] = new Card("Hearts", 5);
+            //hand[1] = new Card("Spades", 4);
+            //hand[2] = new Card("Clubs", 3);
+            //hand[3] = new Card("Diamonds", 2);
+            //hand[4] = new Card("Hearts", 2);
 
             //list the hand, but only for debugging. EVENTUALLY don't show this
             AIEvaluate.ListTheHand(hand, player.Name);
@@ -158,19 +166,71 @@ namespace PokerTournament
                 // one pair - discard 3
                 numCardsToDiscard = 3;
 
-                // if close to straight or flush, get rid of one element of pair
-
-                // discard the 3 cards not in the pair
-                for (int i = 0; i < hand.Length; i++)
+                // if close to straight, get rid of one element of pair
+                if (pRank == 5)
                 {
-                    int count = Evaluate.ValueCount(hand[i].Value, hand);
-
-                    // DEBUG
-                    //Console.WriteLine(count);
-
-                    if (Evaluate.ValueCount(hand[i].Value, hand) == 1)
+                    numCardsToDiscard = 1;
+                    bool hasPair = false;
+                    for (int i = 0; i < hand.Length; i++)
                     {
-                        cardsToDiscard.Add(hand[i]);
+                        if (Evaluate.ValueCount(hand[i].Value, hand) == 2 && !hasPair)
+                        {
+                            cardsToDiscard.Add(hand[i]);
+                            hasPair = true;
+                        }
+                    }
+                }
+                // if close to flush, delete card(s) with problem suit
+                else if (pRank == 6)
+                {
+                    Dictionary<string, int> suitCount = new Dictionary<string, int>();
+                    suitCount.Add("Spades", 0);
+                    suitCount.Add("Clubs", 0);
+                    suitCount.Add("Hearts", 0);
+                    suitCount.Add("Diamonds", 0);
+
+                    // get number of cards in each suit
+                    for (int i = 0; i < hand.Length; i++)
+                    {
+                        Console.WriteLine(hand[i].Suit);
+                        suitCount[hand[i].Suit]++;
+                    }
+
+                    // get the suit that accounts for the flush
+                    string majoritySuit = "Spades";
+                    foreach (string suit in suitCount.Keys)
+                    {
+                        if (suitCount[suit] > suitCount[majoritySuit])
+                        {
+                            majoritySuit = suit;
+                        }
+                    }
+
+                    for (int i = 0; i < hand.Length; i++)
+                    {
+                        // get rid of card if not in correct suit
+                        if (hand[i].Suit != majoritySuit)
+                        {
+                            cardsToDiscard.Add(hand[i]);
+                        }
+                    }
+                    numCardsToDiscard = cardsToDiscard.Count;
+                }
+                // normal case
+                else
+                {
+                    // discard the 3 cards not in the pair
+                    for (int i = 0; i < hand.Length; i++)
+                    {
+                        int count = Evaluate.ValueCount(hand[i].Value, hand);
+
+                        // DEBUG
+                        //Console.WriteLine(count);
+                        
+                        if (Evaluate.ValueCount(hand[i].Value, hand) == 1)
+                        {
+                            cardsToDiscard.Add(hand[i]);
+                        }
                     }
                 }
             }
@@ -249,7 +309,6 @@ namespace PokerTournament
 
                     // since the hand is sorted
                     // just discard the lowest cards in the hand
-                    // regardless of how many cards should be discarded
                     for (int i = 0; i < numCardsToDiscard; i++)
                     {
                         cardsToDiscard.Add(hand[i]);
