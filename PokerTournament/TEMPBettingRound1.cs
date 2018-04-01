@@ -14,11 +14,11 @@ namespace PokerTournament
         //  hand is the player's current hand
         public PlayerAction BettingRound1(List<PlayerAction> actions, Card[] hand, PlayerN player)
         {
-            //hand[0] = new Card("Spades", 10);
-            //hand[1] = new Card("Spades", 11);
-            //hand[2] = new Card("Diamonds", 12);
-            //hand[3] = new Card("Spades", 13);
-            //hand[4] = new Card("Spades", 12);
+            hand[0] = new Card("Spades", 10);
+            hand[1] = new Card("Spades", 11);
+            hand[2] = new Card("Diamonds", 12);
+            hand[3] = new Card("Spades", 13);
+            hand[4] = new Card("Spades", 12);
 
             //list the hand, but only for debugging. EVENTUALLY don't show this
             AIEvaluate.ListTheHand(hand, player.Name);
@@ -35,8 +35,10 @@ namespace PokerTournament
             
             Card highCard = null;
             int rank = Evaluate.RateAHand(hand, out highCard);
-            int pRank = AIEvaluate.PotentialRank(hand);
+            int pRank = AIEvaluate.PotentialRank(hand); //can not be less than rank
+            //can only be 4 if rank = 2 | can only be 7 if rank = 3 | can only be 8 if rank = 4
             int currentBet = AIEvaluate.CurrentBet(actions);
+            
             int willingBet = 0;
             int willingCheck = 0; //-1 for check on any bet greater than willingBet
             //manipulate the willing values for the ai based on their current cards
@@ -44,45 +46,75 @@ namespace PokerTournament
             {
                 willingBet = 0;
                 willingCheck = 0;
-                willingBet += pRank * 5;
-                willingCheck += pRank * 5;
+                if (pRank == 2)
+                {
+                    willingBet += 0;
+                    willingCheck += 0;
+                }
+                else if (pRank == 5)
+                {
+                    willingBet += 0;
+                    willingCheck += 5;
+                }
+                else if (pRank == 6)
+                {
+                    willingBet += 5;
+                    willingCheck += 10;
+                }
+                else if (pRank >= 9)
+                {
+                    willingBet += 10;
+                    willingCheck += 10;
+                }
             }
             else if (rank == 2)
             {
                 willingBet = 10;
                 willingCheck = 10;
-                willingBet += pRank * 5;
-                willingCheck += pRank * 5;
+                if (pRank == 4)
+                {
+                    willingBet += 0;
+                    willingCheck += 5;
+                }
+                else if (pRank == 5)
+                {
+                    willingBet += 0;
+                    willingCheck += 5;
+                }
+                else if (pRank == 6)
+                {
+                    willingBet += 5;
+                    willingCheck += 10;
+                }
+                else if (pRank >= 9)
+                {
+                    willingBet += 10;
+                    willingCheck += 10;
+                }
             }
             else if (rank == 3)
             {
                 willingBet = 20;
                 willingCheck = 30;
-                willingBet += pRank * 5;
-                willingCheck += pRank * 5;
             }
             else if (rank == 4)
             {
                 willingBet = 20;
                 willingCheck = 30;
-                willingBet += pRank * 5;
-                willingCheck += pRank * 5;
             }
             else if (rank == 5)
             {
                 willingBet = 20;
                 willingCheck = 30;
-                willingBet += pRank * 5;
-                willingCheck += pRank * 5;
             }
             else if (rank == 6)
             {
-                willingBet = 0;
+                willingBet = 20;
                 willingCheck = 50;
             }
             else if(rank == 7 || rank == 8 || rank == 9 || rank == 10)//low bet, to try and draw the opponent in
             {
-                willingBet = 10;
+                willingBet = 20;
                 willingCheck = -1;
                 if (currentBet > 10)
                 {
@@ -103,7 +135,7 @@ namespace PokerTournament
             }
             else if (currentBet <= willingBet)
             {
-                pa = new PlayerAction(player.Name, "Bet1", "raise", willingBet);
+                pa = new PlayerAction(player.Name, "Bet1", "raise", willingBet - currentBet);
             }
             else if (currentBet <= willingCheck || willingCheck == -1)
             {

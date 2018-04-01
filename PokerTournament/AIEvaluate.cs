@@ -448,32 +448,40 @@ namespace PokerTournament
 
             if(CloseToRoyalFlush(hand) >= needForFive)
             {
+                //at least 60% of combo is close
                 return 10;
             }
             if (CloseToStraightFlush(hand) >= needForFive)
             {
+                //at least 60% of combo is close
                 return 9;
             }
-            if (MostOfSameValue(hand) >= 3)
+            if (MostOfSameValue(hand) >= 3) //will have at least 3 of a kind (rank = 4)
             {
+                //at least 75% of combo is close
                 return 8;
             }
-            if (CloseToFullHouse(hand) >= 4)
+            if (CloseToFullHouse(hand) >= 4) //will have at least 2 pair (rank = 3)
             {
+                //at least 80% of combo is close
                 return 7;
             }
             if (CloseToFlush(hand) >= needForFive)
             {
+                //at least 60% of combo is close
                 return 6;
             }
             if (CloseToStraight(hand) >= needForFive)
             {
+                //at least 60% of combo is close
                 return 5;
             }
-            if (MostOfSameValue(hand) == 2)
+            if (MostOfSameValue(hand) == 2) //will have at least 1 pair (rank = 2)
             {
+                //at least 66% of combo is close
                 return 4;
             }
+            //two pair is not included, since close to 2 pair is also close to 3 of a kind
             return 2; //one pair is the worst potential hand that is returned
         }
 
@@ -490,7 +498,7 @@ namespace PokerTournament
                 Console.Write("\n\t " + hand[i].ToString() + " ");
             }
             Console.WriteLine();
-            List<List<Card>> close = CloseToRoyalFlushCards(hand);
+            /*List<List<Card>> close = CloseToRoyalFlushCards(hand);
             for (int i = 0; i < close.Count; i++)
             {
                 for (int i2 = 0; i2 < close[i].Count; i2++)
@@ -499,7 +507,7 @@ namespace PokerTournament
                 }
                 Console.Write("\n\t\t------------");
             }
-            Console.WriteLine("\n\t " + CloseToRoyalFlush(hand));
+            Console.WriteLine("\n\t " + CloseToRoyalFlush(hand));*/
         }
 
         //returns the string version of a rank, for prettier outputs
@@ -564,12 +572,22 @@ namespace PokerTournament
         public static int CurrentBet(List<PlayerAction> actions)
         {
             int actionIter = actions.Count - 1;
-            while(actionIter > 0)
+            //int actionIter = 0;
+            int betTotal = 0;
+
+            //while (actionIter < actions.Count)
+            while (actionIter >= 0)
             {
-                if(actions[actionIter].ActionName == "Bet" || actions[actionIter].ActionName == "Raise")
+                if (actions[actionIter].ActionName == "bet")
                 {
-                    return actions[actionIter].Amount;
+                    return actions[actionIter].Amount + betTotal;
                 }
+                if (actions[actionIter].ActionName == "raise")
+                {
+                    betTotal += actions[actionIter].Amount;
+                }
+                //actionIter++;
+                actionIter--;
             }
             return 0;
         }
