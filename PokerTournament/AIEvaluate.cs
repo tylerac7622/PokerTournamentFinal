@@ -225,7 +225,7 @@ namespace PokerTournament
             {
                 return 8;
             }
-            if (CloseToFullHouse(hand) >= needForFive)
+            if (CloseToFullHouse(hand) >= 4)
             {
                 return 7;
             }
@@ -241,7 +241,7 @@ namespace PokerTournament
             {
                 return 4;
             }
-            return 3; //two pair is the worst potential hand that is returned
+            return 2; //one pair is the worst potential hand that is returned
         }
 
         public static void ListTheHand(Card[] hand, String name)
@@ -251,7 +251,7 @@ namespace PokerTournament
             int rank = Evaluate.RateAHand(hand, out highCard);
 
             // list your hand
-            Console.Write("\nName: " + name + "\n\tRank: " + PrintRank(rank) + "\n\tTheir hand:");
+            Console.Write("\nName: " + name + "\n\tRank: " + PrintRank(rank) + "\n\tPotential Rank: " + PrintRank(PotentialRank(hand)) + "\n\tTheir hand:");
             for (int i = 0; i < hand.Length; i++)
             {
                 Console.Write("\n\t " + hand[i].ToString() + " ");

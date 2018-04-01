@@ -14,11 +14,11 @@ namespace PokerTournament
         //  hand is the player's current hand
         public PlayerAction BettingRound1(List<PlayerAction> actions, Card[] hand, PlayerN player)
         {
-            hand[0] = new Card("Spades", 10);
-            hand[1] = new Card("Spades", 11);
-            hand[2] = new Card("Diamonds", 12);
-            hand[3] = new Card("Spades", 13);
-            hand[4] = new Card("Spades", 12);
+            //hand[0] = new Card("Spades", 10);
+            //hand[1] = new Card("Spades", 11);
+            //hand[2] = new Card("Diamonds", 12);
+            //hand[3] = new Card("Spades", 13);
+            //hand[4] = new Card("Spades", 12);
 
             //list the hand, but only for debugging. EVENTUALLY don't show this
             AIEvaluate.ListTheHand(hand, player.Name);
@@ -35,101 +35,84 @@ namespace PokerTournament
             
             Card highCard = null;
             int rank = Evaluate.RateAHand(hand, out highCard);
+            int pRank = AIEvaluate.PotentialRank(hand);
             int currentBet = AIEvaluate.CurrentBet(actions);
+            int willingBet = 0;
+            int willingCheck = 0; //-1 for check on any bet greater than willingBet
+            //manipulate the willing values for the ai based on their current cards
             if (rank == 1)
             {
-                if (currentBet == 0)
+                willingBet = 0;
+                willingCheck = 0;
+                willingBet += pRank * 5;
+                willingCheck += pRank * 5;
+            }
+            else if (rank == 2)
+            {
+                willingBet = 10;
+                willingCheck = 10;
+                willingBet += pRank * 5;
+                willingCheck += pRank * 5;
+            }
+            else if (rank == 3)
+            {
+                willingBet = 20;
+                willingCheck = 30;
+                willingBet += pRank * 5;
+                willingCheck += pRank * 5;
+            }
+            else if (rank == 4)
+            {
+                willingBet = 20;
+                willingCheck = 30;
+                willingBet += pRank * 5;
+                willingCheck += pRank * 5;
+            }
+            else if (rank == 5)
+            {
+                willingBet = 20;
+                willingCheck = 30;
+                willingBet += pRank * 5;
+                willingCheck += pRank * 5;
+            }
+            else if (rank == 6)
+            {
+                willingBet = 0;
+                willingCheck = 50;
+            }
+            else if(rank == 7 || rank == 8 || rank == 9 || rank == 10)//low bet, to try and draw the opponent in
+            {
+                willingBet = 10;
+                willingCheck = -1;
+                if (currentBet > 10)
+                {
+                    willingBet = 50;
+                }
+            }
+            //chooses the next action based on what the ai is willing to do
+            if (currentBet == 0)
+            {
+                if (willingBet == 0)
                 {
                     pa = new PlayerAction(player.Name, "Bet1", "check", 0);
                 }
                 else
                 {
-                    pa = new PlayerAction(player.Name, "Bet1", "fold", 0);
+                    pa = new PlayerAction(player.Name, "Bet1", "bet", willingBet);
                 }
             }
-            else if (rank < 3)
+            else if (currentBet <= willingBet)
             {
-                //if current bet <= 10, call
-                //if current bet > 10, fold
-                //if no bet, check
-                if (currentBet == 0)
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "bet", 10);
-                }
-                else if (currentBet <= 10)
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "call", 0);
-                }
-                else
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "fold", 0);
-                }
+                pa = new PlayerAction(player.Name, "Bet1", "raise", willingBet);
             }
-            else if (rank < 5)
+            else if (currentBet <= willingCheck || willingCheck == -1)
             {
-                //if current bet < 20, raise to 20
-                //if current bet <= 30, call
-                //if current bet > 30, fold
-                //if no bet, bet 20
-                if (currentBet == 0)
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "bet", 20);
-                }
-                else if (currentBet < 20)
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "raise", 20);
-                }
-                else if (currentBet <= 30)
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "call", 0);
-                }
-                else
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "fold", 0);
-                }
+                pa = new PlayerAction(player.Name, "Bet1", "call", 0);
             }
-            else if (rank < 6) //stealthy check, to try and draw the opponent in
+            else
             {
-                //if current bet <= 50, call
-                //if current bet > 50, fold
-                //if no bet, check
-                if (currentBet == 0)
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "check", 0);
-                }
-                else if (currentBet <= 50)
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "call", 0);
-                }
-                else
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "fold", 0);
-                }
+                pa = new PlayerAction(player.Name, "Bet1", "fold", 0);
             }
-            else //low bet, to try and draw the opponent in
-            {
-                //if current bet <= 50, raise to 50
-                //if current bet > 50, call
-                //if no bet, bet 10
-                if (currentBet == 0)
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "bet", 10);
-                }
-                else if (currentBet <= 50)
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "raise", 50);
-                }
-                else
-                {
-                    pa = new PlayerAction(player.Name, "Bet1", "call", 0);
-                }
-            }
-
-            //pa = new PlayerAction(player.Name, "Bet1", "bet", amount);
-            //pa = new PlayerAction(player.Name, "Bet1", "raise", amount);
-            //pa = new PlayerAction(player.Name, "Bet1", "check", 0);
-            //pa = new PlayerAction(player.Name, "Bet1", "call", 0);
-            //pa = new PlayerAction(player.Name, "Bet1", "fold", 0);
             return pa;
         }
     }
