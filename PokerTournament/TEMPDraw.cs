@@ -14,11 +14,11 @@ namespace PokerTournament
         public PlayerAction Draw(Card[] hand, PlayerN player)
         {
             // DEBUG HAND
-            hand[0] = new Card("Spades", 2);
-            hand[1] = new Card("Spades", 6);
-            hand[2] = new Card("Clubs", 6);
-            hand[3] = new Card("Diamonds", 10);
-            hand[4] = new Card("Hearts", 10);
+            hand[0] = new Card("Hearts", 14);
+            hand[1] = new Card("Spades", 13);
+            hand[2] = new Card("Diamonds", 12);
+            hand[3] = new Card("Clubs", 11);
+            hand[4] = new Card("Spades", 9);
 
             //list the hand, but only for debugging. EVENTUALLY don't show this
             AIEvaluate.ListTheHand(hand, player.Name);
@@ -36,6 +36,7 @@ namespace PokerTournament
             Card highCard = null;
             int rank = Evaluate.RateAHand(hand, out highCard);
             List<Card> cardsToDiscard = new List<Card>();
+            int pRank = AIEvaluate.PotentialRank(hand);
 
             // PROBABILITIES (OUT OF 1) OF GETTING A GIVEN HAND
             // source: https://math.hawaii.edu/~ramsey/Probability/PokerHands.html
@@ -55,7 +56,7 @@ namespace PokerTournament
             double percent = 0.0f;
             //percent = random.NextDouble();
             
-            // hands this good should be kept
+            // hands this good should be kept (they each have a <1% chance of occuring!)
             if (rank >= 5)
             {
                 numCardsToDiscard = 0;
@@ -64,7 +65,7 @@ namespace PokerTournament
             {
                 // three of a kind - never discard more than 2 cards
                 percent = random.NextDouble();
-                float percentFor2 = 0.5f;
+                float percentFor2 = 0.95f;
 
                 // discard 1
                 numCardsToDiscard = 1;
@@ -157,6 +158,8 @@ namespace PokerTournament
                 // one pair - discard 3
                 numCardsToDiscard = 3;
 
+                // if close to straight or flush, get rid of one element of pair
+
                 // discard the 3 cards not in the pair
                 for (int i = 0; i < hand.Length; i++)
                 {
@@ -173,31 +176,84 @@ namespace PokerTournament
             }
             else
             {
-                // high card - discard at least 3
-                numCardsToDiscard = 3;
-                percent = random.NextDouble();
+                // high card
 
-                float percentFor4 = 0.33f;
-                float percentFor5 = 0.33f;
-                percentFor5 += percentFor4;
+                // mainly based on potential rank
+                // if close to something good and rare, just get rid of problem card(s)
+                if (pRank >= 5)
+                {
+                    List<List<Card>> goodCards = new List<List<Card>>();
+                    switch (pRank)
+                    {
+                        case 10:
+                            goodCards = AIEvaluate.CloseToRoyalFlushCards(hand);
+                            break;
+                        case 9:
+                            goodCards = AIEvaluate.CloseToStraightFlushCards(hand);
+                            break;
+                        case 8:
+                            // if close to 4 of a kind, it's 3 of a kind
+                            break;
+                        case 7:
+                            // if close to full house, it's 3 of a kind or 2 pairs
+                            break;
+                        case 6:
+                            goodCards = AIEvaluate.CloseToFlushCards(hand);
+                            break;
+                        case 5:
+                            goodCards = AIEvaluate.CloseToStraightCards(hand);
+                            break;
+                        default: break;
+                    }
 
-                // discard 4
-                if (percent < percentFor4)
-                {
-                    numCardsToDiscard = 4;
+                    // only get rid of problem cards for potential cases that can result from a high card hand
+                    if (pRank < 7 || pRank > 8)
+                    {
+
+                        for (int i = 0; i < hand.Length; i++)
+                        {
+                            for (int j = 0; j < goodCards.Count; j++)
+                            {
+                                if (!goodCards[j].Contains(hand[i]))
+                                {
+                                    cardsToDiscard.Add(hand[i]);
+                                }
+                            }
+                        }
+                    }
+
+                    // properly set number of discarding cards
+                    numCardsToDiscard = cardsToDiscard.Count;
                 }
-                // discard all 5
-                else if (percent < percentFor5)
+                else
                 {
-                    numCardsToDiscard = 5;
-                }
-                
-                // since the hand is sorted
-                // just discard the lowest cards in the hand
-                // regardless of how many cards should be discarded
-                for (int i = 0; i < numCardsToDiscard; i++)
-                {
-                    cardsToDiscard.Add(hand[i]);
+                    // otherwise, just get rid of at least 3 cards randomly
+
+                    numCardsToDiscard = 3;
+                    percent = random.NextDouble();
+
+                    float percentFor4 = 0.33f;
+                    float percentFor5 = 0.33f;
+                    percentFor5 += percentFor4;
+
+                    // discard 4
+                    if (percent < percentFor4)
+                    {
+                        numCardsToDiscard = 4;
+                    }
+                    // discard all 5
+                    else if (percent < percentFor5)
+                    {
+                        numCardsToDiscard = 5;
+                    }
+
+                    // since the hand is sorted
+                    // just discard the lowest cards in the hand
+                    // regardless of how many cards should be discarded
+                    for (int i = 0; i < numCardsToDiscard; i++)
+                    {
+                        cardsToDiscard.Add(hand[i]);
+                    }
                 }
             }
 
