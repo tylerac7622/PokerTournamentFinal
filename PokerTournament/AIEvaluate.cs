@@ -8,6 +8,213 @@ namespace PokerTournament
 {
     class AIEvaluate
     {
+        //list of helper functions that returns a 2d list of current card combinations that are close to the checked combo
+        public static List<List<Card>> CloseToRoyalFlushCards(Card[] hand)
+        {
+            // sort the hand
+            Card highCard = null;
+            int rank = Evaluate.RateAHand(hand, out highCard);
+
+            List<List<Card>> cardCombos = new List<List<Card>>();
+            List<Card> currentList = new List<Card>();
+
+            int maxLength = 0;
+            int currentLength = 0;
+            int currentTracker = hand[0].Value;
+            //loops through each card, checking if it is the earliest point of a possible straight
+            for (int i = 0; i < 5; i++)
+            {
+                //royal flush must start at 10
+                if (hand[i].Value > 9)
+                {
+                    currentList.Add(hand[i]);
+                    currentTracker = hand[i].Value;
+                    currentLength = 1;
+                    //check each card after to see if it could be a part of a straight including the first card
+                    for (int i2 = i + 1; i2 < 5; i2++)
+                    {
+                        //another card is a part of the straight flush if it is within 5 value of the start and isn't a repeat value of the previous card in the straight and the suit is the same as the first card
+                        if (hand[i2].Value - hand[i].Value < 5 && hand[i2].Value != currentTracker && hand[i2].Suit == hand[i].Suit)
+                        {
+                            currentList.Add(hand[i2]);
+                            currentLength++;
+                            currentTracker = hand[i2].Value;
+                        }
+                    }
+                }
+                //the largest potential straight that can be found is returned
+                if (currentLength > maxLength)
+                {
+                    maxLength = currentLength;
+                    //also, since there is a new longest length, remove all previous saved potential combos and restart the 2d list with the current one
+                    cardCombos.Clear();
+                    cardCombos.Add(new List<Card>(currentList));
+                }
+                //if it's the same length, it's a new iteration in the returned list
+                else if(currentLength == maxLength && currentLength != 0)
+                {
+                    cardCombos.Add(new List<Card>(currentList));
+                }
+                currentList.Clear();
+            }
+            return cardCombos;
+        }
+        public static List<List<Card>> CloseToStraightFlushCards(Card[] hand)
+        {
+            // sort the hand
+            Card highCard = null;
+            int rank = Evaluate.RateAHand(hand, out highCard);
+
+            List<List<Card>> cardCombos = new List<List<Card>>();
+            List<Card> currentList = new List<Card>();
+
+            int maxLength = 0;
+            int currentLength = 0;
+            int currentTracker = hand[0].Value;
+            //loops through each card, checking if it is the earliest point of a possible straight
+            for (int i = 0; i < 5; i++)
+            {
+                currentList.Add(hand[i]);
+                currentTracker = hand[i].Value;
+                currentLength = 1;
+                //check each card after to see if it could be a part of a straight including the first card
+                for (int i2 = i + 1; i2 < 5; i2++)
+                {
+                    //another card is a part of the straight flush if it is within 5 value of the start and isn't a repeat value of the previous card in the straight and the suit is the same as the first card
+                    if (hand[i2].Value - hand[i].Value < 5 && hand[i2].Value != currentTracker && hand[i2].Suit == hand[i].Suit)
+                    {
+                        currentList.Add(hand[i2]);
+                        currentLength++;
+                        currentTracker = hand[i2].Value;
+                    }
+                }
+                //the largest potential straight that can be found is returned
+                if (currentLength > maxLength)
+                {
+                    maxLength = currentLength;
+                    //also, since there is a new longest length, remove all previous saved potential combos and restart the 2d list with the current one
+                    cardCombos.Clear();
+                    cardCombos.Add(new List<Card>(currentList));
+                }
+                //if it's the same length, it's a new iteration in the returned list
+                else if (currentLength == maxLength && currentLength != 0)
+                {
+                    cardCombos.Add(new List<Card>(currentList));
+                }
+                currentList.Clear();
+            }
+            return cardCombos;
+        }
+        public static List<List<Card>> CloseToStraightCards(Card[] hand)
+        {
+            // sort the hand
+            Card highCard = null;
+            int rank = Evaluate.RateAHand(hand, out highCard);
+
+            List<List<Card>> cardCombos = new List<List<Card>>();
+            List<Card> currentList = new List<Card>();
+
+            int maxLength = 0;
+            int currentLength = 0;
+            int currentTracker = hand[0].Value;
+            //loops through each card, checking if it is the earliest point of a possible straight
+            for (int i = 0; i < 5; i++)
+            {
+                currentList.Add(hand[i]);
+                currentTracker = hand[i].Value;
+                currentLength = 1;
+                //check each card after to see if it could be a part of a straight including the first card
+                for (int i2 = i + 1; i2 < 5; i2++)
+                {
+                    //another card is a part of the straight if it is within 5 value of the start and isn't a repeat value of the previous card in the straight
+                    if (hand[i2].Value - hand[i].Value < 5 && hand[i2].Value != currentTracker)
+                    {
+                        currentList.Add(hand[i2]);
+                        currentLength++;
+                        currentTracker = hand[i2].Value;
+                    }
+                }
+                //the largest potential straight that can be found is returned
+                if (currentLength > maxLength)
+                {
+                    maxLength = currentLength;
+                    //also, since there is a new longest length, remove all previous saved potential combos and restart the 2d list with the current one
+                    cardCombos.Clear();
+                    cardCombos.Add(new List<Card>(currentList));
+                }
+                //if it's the same length, it's a new iteration in the returned list
+                else if (currentLength == maxLength && currentLength != 0)
+                {
+                    cardCombos.Add(new List<Card>(currentList));
+                }
+                currentList.Clear();
+            }
+            return cardCombos;
+        }
+        public static List<List<Card>> CloseToFlushCards(Card[] hand)
+        {
+            // sort the hand
+            Evaluate.SortHand(hand);
+
+            int maxLength = 1;
+
+            List<List<Card>> cardCombos = new List<List<Card>>();
+
+            //returns the largest count of each suit, since that suit will be closest to a flush
+            int diamonds = AllSameSuit(hand, "Diamonds");
+            int spades = AllSameSuit(hand, "Spades");
+            int clubs = AllSameSuit(hand, "Clubs");
+            int hearts = AllSameSuit(hand, "Hearts");
+
+            maxLength = Math.Max(Math.Max(diamonds, hearts), Math.Max(spades, clubs));
+
+            //adds the list of cards which are close to a flush to the return list
+            List<Card> diamondsCards = AllSameSuitCards(hand, "Diamonds");
+            List<Card> spadesCards = AllSameSuitCards(hand, "Spades");
+            List<Card> clubsCards = AllSameSuitCards(hand, "Clubs");
+            List<Card> heartsCards = AllSameSuitCards(hand, "Hearts");
+
+            if(diamondsCards.Count == maxLength)
+            {
+                cardCombos.Add(new List<Card>(diamondsCards));
+            }
+            if (spadesCards.Count == maxLength)
+            {
+                cardCombos.Add(new List<Card>(spadesCards));
+            }
+            if (clubsCards.Count == maxLength)
+            {
+                cardCombos.Add(new List<Card>(clubsCards));
+            }
+            if (heartsCards.Count == maxLength)
+            {
+                cardCombos.Add(new List<Card>(heartsCards));
+            }
+
+            return cardCombos;
+        }
+        public static List<List<Card>> MostOfSameValueCards(Card[] hand)
+        {
+            int mostCount = 1;
+            for (int i = 2; i < 15; i++)
+            {
+                if (Evaluate.ValueCount(i, hand) > mostCount)
+                {
+                    mostCount = Evaluate.ValueCount(i, hand);
+                }
+            }
+            List<List<Card>> cardCombos = new List<List<Card>>();
+            for (int i = 2; i < 15; i++)
+            {
+                List<Card> combo = ValueCountCards(i, hand);
+                if (combo.Count == mostCount)
+                {
+                    cardCombos.Add(new List<Card>(combo));
+                }
+            }
+            return cardCombos;
+        }
+
         //list of helper functions telling how close a hand is to certain combos
         public static int CloseToRoyalFlush(Card[] hand)
         {
@@ -206,6 +413,32 @@ namespace PokerTournament
             }
             return returnCount;
         }
+        public static List<Card> AllSameSuitCards(Card[] hand, string suit)
+        {
+            List<Card> returnCards = new List<Card>();
+            for (int i = 0; i < 5; i++)
+            {
+                if (hand[i].Suit == suit)
+                {
+                    returnCards.Add(hand[i]);
+                }
+            }
+            return returnCards;
+        }
+        //helper function returning all cards with the specified value
+        public static List<Card> ValueCountCards(int value, Card[] hand)
+        {
+            // count the occurences of a value
+            List<Card> countCards = new List<Card>();
+            for (int i = 0; i < hand.Length; i++)
+            {
+                if (hand[i].Value == value)
+                {
+                    countCards.Add(hand[i]);
+                }
+            }
+            return countCards;
+        }
 
         //This function returns the rank of potential hand based on how close the current hand is to combos
         public static int PotentialRank(Card[] hand)
@@ -257,6 +490,15 @@ namespace PokerTournament
                 Console.Write("\n\t " + hand[i].ToString() + " ");
             }
             Console.WriteLine();
+            List<List<Card>> close = CloseToRoyalFlushCards(hand);
+            for (int i = 0; i < close.Count; i++)
+            {
+                for (int i2 = 0; i2 < close[i].Count; i2++)
+                {
+                    Console.Write("\n\t\t " + close[i][i2].ToString() + " ");
+                }
+                Console.Write("\n\t\t------------");
+            }
             Console.WriteLine("\n\t " + CloseToRoyalFlush(hand));
         }
 
