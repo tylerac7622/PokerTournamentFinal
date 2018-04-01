@@ -14,11 +14,11 @@ namespace PokerTournament
         //  hand is the player's current hand
         public PlayerAction BettingRound1(List<PlayerAction> actions, Card[] hand, PlayerN player)
         {
-            hand[0] = new Card("Spades", 10);
-            hand[1] = new Card("Spades", 11);
-            hand[2] = new Card("Diamonds", 12);
-            hand[3] = new Card("Spades", 13);
-            hand[4] = new Card("Spades", 12);
+            //hand[0] = new Card("Spades", 10);
+            //hand[1] = new Card("Spades", 11);
+            //hand[2] = new Card("Diamonds", 12);
+            //hand[3] = new Card("Spades", 13);
+            //hand[4] = new Card("Spades", 12);
 
             //list the hand, but only for debugging. EVENTUALLY don't show this
             AIEvaluate.ListTheHand(hand, player.Name);
@@ -73,17 +73,17 @@ namespace PokerTournament
                 willingCheck = 10;
                 if (pRank == 4)
                 {
-                    willingBet += 0;
+                    willingBet += 5;
                     willingCheck += 5;
                 }
                 else if (pRank == 5)
                 {
-                    willingBet += 0;
-                    willingCheck += 5;
+                    willingBet += 5;
+                    willingCheck += 10;
                 }
                 else if (pRank == 6)
                 {
-                    willingBet += 5;
+                    willingBet += 10;
                     willingCheck += 10;
                 }
                 else if (pRank >= 9)
@@ -98,7 +98,7 @@ namespace PokerTournament
                 willingCheck = 30;
                 if (pRank == 5)
                 {
-                    willingBet += 0;
+                    willingBet += 5;
                     willingCheck += 5;
                 }
                 else if (pRank == 6)
@@ -123,7 +123,7 @@ namespace PokerTournament
                 willingCheck = 30;
                 if (pRank == 5)
                 {
-                    willingBet += 0;
+                    willingBet += 5;
                     willingCheck += 5;
                 }
                 else if (pRank == 6)
@@ -149,7 +149,7 @@ namespace PokerTournament
             }
             else if (rank == 6)
             {
-                willingBet = 20;
+                willingBet = 25;
                 willingCheck = 50;
             }
             else if(rank == 7 || rank == 8 || rank == 9 || rank == 10)//low bet, to try and draw the opponent in
@@ -161,6 +161,10 @@ namespace PokerTournament
                     willingBet = 50;
                 }
             }
+            float desperation = 1000 / player.Money;
+            desperation = (float)Math.Pow(desperation, .5f);
+            willingBet = (int) (willingBet * desperation);
+            willingCheck = (int)(willingCheck * desperation);
             Console.WriteLine("Willing to Bet: " + willingBet);
             Console.WriteLine("Willing to Check: " + willingCheck);
             Console.WriteLine();
