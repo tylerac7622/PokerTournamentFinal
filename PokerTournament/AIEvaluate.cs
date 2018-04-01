@@ -8,6 +8,72 @@ namespace PokerTournament
 {
     class AIEvaluate
     {
+        public static List<int> PotentialCardInclusion(Card[] hand, Card check)
+        {
+            List<int> inclusions = new List<int>();
+            List<List<Card>> royalFlush = CloseToRoyalFlushCards(hand);
+            for(int i = 0; i < royalFlush.Count; i++)
+            {
+                if(royalFlush[i].Contains(check))
+                {
+                    inclusions.Add(10);
+                    i = royalFlush.Count;
+                }
+            }
+            List<List<Card>> straightFlush = CloseToStraightFlushCards(hand);
+            for (int i = 0; i < straightFlush.Count; i++)
+            {
+                if (straightFlush[i].Contains(check))
+                {
+                    inclusions.Add(9);
+                    i = straightFlush.Count;
+                }
+            }
+            List<List<Card>> flush = CloseToFlushCards(hand);
+            for (int i = 0; i < flush.Count; i++)
+            {
+                if (flush[i].Contains(check))
+                {
+                    inclusions.Add(6);
+                    i = flush.Count;
+                }
+            }
+            List<List<Card>> straight = CloseToStraightCards(hand);
+            for (int i = 0; i < straight.Count; i++)
+            {
+                if (straight[i].Contains(check))
+                {
+                    inclusions.Add(5);
+                    i = straight.Count;
+                }
+            }
+            if (Evaluate.ValueCount(check.Value, hand) == 3)
+            {
+                inclusions.Add(8);
+                inclusions.Add(4);
+            }
+            if (Evaluate.ValueCount(check.Value, hand) == 2)
+            {
+                for (int i = 0; i < hand.Length; i++)
+                {
+                    if (hand[i].Value != check.Value && Evaluate.ValueCount(check.Value, hand) >= 2)
+                    {
+                        inclusions.Add(7);
+                        i = 5;
+                    }
+                }
+                inclusions.Add(4);
+            }
+            else if(MostOfSameValue(hand) == 3)
+            {
+                inclusions.Add(7);
+            }
+
+            inclusions.Add(3);
+            inclusions.Add(2);
+            return inclusions;
+        }
+
         //list of helper functions that returns a 2d list of current card combinations that are close to the checked combo
         public static List<List<Card>> CloseToRoyalFlushCards(Card[] hand)
         {
@@ -448,32 +514,40 @@ namespace PokerTournament
 
             if(CloseToRoyalFlush(hand) >= needForFive)
             {
+                //at least 60% of combo is close
                 return 10;
             }
             if (CloseToStraightFlush(hand) >= needForFive)
             {
+                //at least 60% of combo is close
                 return 9;
             }
-            if (MostOfSameValue(hand) >= 3)
+            if (MostOfSameValue(hand) >= 3) //will have at least 3 of a kind (rank = 4)
             {
+                //at least 75% of combo is close
                 return 8;
             }
-            if (CloseToFullHouse(hand) >= 4)
+            if (CloseToFullHouse(hand) >= 4) //will have at least 2 pair (rank = 3)
             {
+                //at least 80% of combo is close
                 return 7;
             }
             if (CloseToFlush(hand) >= needForFive)
             {
+                //at least 60% of combo is close
                 return 6;
             }
             if (CloseToStraight(hand) >= needForFive)
             {
+                //at least 60% of combo is close
                 return 5;
             }
-            if (MostOfSameValue(hand) == 2)
+            if (MostOfSameValue(hand) == 2) //will have at least 1 pair (rank = 2)
             {
+                //at least 66% of combo is close
                 return 4;
             }
+            //two pair is not included, since close to 2 pair is also close to 3 of a kind
             return 2; //one pair is the worst potential hand that is returned
         }
 
@@ -484,13 +558,18 @@ namespace PokerTournament
             int rank = Evaluate.RateAHand(hand, out highCard);
 
             // list your hand
-            Console.Write("\nName: " + name + "\n\tRank: " + PrintRank(rank) + "\n\tPotential Rank: " + PrintRank(PotentialRank(hand)) + "\n\tTheir hand:");
+            Console.Write("\nName: " + name + "\n\tRank: \t\t" + PrintRank(rank) + "\n\tPotential Rank: " + PrintRank(PotentialRank(hand)) + "\n\tTheir hand:");
             for (int i = 0; i < hand.Length; i++)
             {
                 Console.Write("\n\t " + hand[i].ToString() + " ");
             }
             Console.WriteLine();
-            List<List<Card>> close = CloseToRoyalFlushCards(hand);
+            //List<int> possibilities = PotentialCardInclusion(hand, hand[0]);
+            //for (int i = 0; i < possibilities.Count; i++)
+            //{
+            //    Console.WriteLine("\t\t" + PrintRank(possibilities[i]));
+            //}
+            /*List<List<Card>> close = CloseToRoyalFlushCards(hand);
             for (int i = 0; i < close.Count; i++)
             {
                 for (int i2 = 0; i2 < close[i].Count; i2++)
@@ -499,7 +578,7 @@ namespace PokerTournament
                 }
                 Console.Write("\n\t\t------------");
             }
-            Console.WriteLine("\n\t " + CloseToRoyalFlush(hand));
+            Console.WriteLine("\n\t " + CloseToRoyalFlush(hand));*/
         }
 
         //returns the string version of a rank, for prettier outputs
@@ -564,12 +643,22 @@ namespace PokerTournament
         public static int CurrentBet(List<PlayerAction> actions)
         {
             int actionIter = actions.Count - 1;
-            while(actionIter > 0)
+            //int actionIter = 0;
+            int betTotal = 0;
+
+            //while (actionIter < actions.Count)
+            while (actionIter >= 0)
             {
-                if(actions[actionIter].ActionName == "Bet" || actions[actionIter].ActionName == "Raise")
+                if (actions[actionIter].ActionName == "bet")
                 {
-                    return actions[actionIter].Amount;
+                    return actions[actionIter].Amount + betTotal;
                 }
+                if (actions[actionIter].ActionName == "raise")
+                {
+                    betTotal += actions[actionIter].Amount;
+                }
+                //actionIter++;
+                actionIter--;
             }
             return 0;
         }
