@@ -161,6 +161,9 @@ namespace PokerTournament
                     willingBet = 50;
                 }
             }
+            Console.WriteLine("Willing to Bet: " + willingBet);
+            Console.WriteLine("Willing to Check: " + willingCheck);
+            Console.WriteLine();
             //chooses the next action based on what the ai is willing to do
             if (currentBet == 0)
             {

@@ -8,6 +8,72 @@ namespace PokerTournament
 {
     class AIEvaluate
     {
+        public static List<int> PotentialCardInclusion(Card[] hand, Card check)
+        {
+            List<int> inclusions = new List<int>();
+            List<List<Card>> royalFlush = CloseToRoyalFlushCards(hand);
+            for(int i = 0; i < royalFlush.Count; i++)
+            {
+                if(royalFlush[i].Contains(check))
+                {
+                    inclusions.Add(10);
+                    i = royalFlush.Count;
+                }
+            }
+            List<List<Card>> straightFlush = CloseToStraightFlushCards(hand);
+            for (int i = 0; i < straightFlush.Count; i++)
+            {
+                if (straightFlush[i].Contains(check))
+                {
+                    inclusions.Add(9);
+                    i = straightFlush.Count;
+                }
+            }
+            List<List<Card>> flush = CloseToFlushCards(hand);
+            for (int i = 0; i < flush.Count; i++)
+            {
+                if (flush[i].Contains(check))
+                {
+                    inclusions.Add(6);
+                    i = flush.Count;
+                }
+            }
+            List<List<Card>> straight = CloseToStraightCards(hand);
+            for (int i = 0; i < straight.Count; i++)
+            {
+                if (straight[i].Contains(check))
+                {
+                    inclusions.Add(5);
+                    i = straight.Count;
+                }
+            }
+            if (Evaluate.ValueCount(check.Value, hand) == 3)
+            {
+                inclusions.Add(8);
+                inclusions.Add(4);
+            }
+            if (Evaluate.ValueCount(check.Value, hand) == 2)
+            {
+                for (int i = 0; i < hand.Length; i++)
+                {
+                    if (hand[i].Value != check.Value && Evaluate.ValueCount(check.Value, hand) >= 2)
+                    {
+                        inclusions.Add(7);
+                        i = 5;
+                    }
+                }
+                inclusions.Add(4);
+            }
+            else if(MostOfSameValue(hand) == 3)
+            {
+                inclusions.Add(7);
+            }
+
+            inclusions.Add(3);
+            inclusions.Add(2);
+            return inclusions;
+        }
+
         //list of helper functions that returns a 2d list of current card combinations that are close to the checked combo
         public static List<List<Card>> CloseToRoyalFlushCards(Card[] hand)
         {
@@ -492,12 +558,17 @@ namespace PokerTournament
             int rank = Evaluate.RateAHand(hand, out highCard);
 
             // list your hand
-            Console.Write("\nName: " + name + "\n\tRank: " + PrintRank(rank) + "\n\tPotential Rank: " + PrintRank(PotentialRank(hand)) + "\n\tTheir hand:");
+            Console.Write("\nName: " + name + "\n\tRank: \t\t" + PrintRank(rank) + "\n\tPotential Rank: " + PrintRank(PotentialRank(hand)) + "\n\tTheir hand:");
             for (int i = 0; i < hand.Length; i++)
             {
                 Console.Write("\n\t " + hand[i].ToString() + " ");
             }
             Console.WriteLine();
+            //List<int> possibilities = PotentialCardInclusion(hand, hand[0]);
+            //for (int i = 0; i < possibilities.Count; i++)
+            //{
+            //    Console.WriteLine("\t\t" + PrintRank(possibilities[i]));
+            //}
             /*List<List<Card>> close = CloseToRoyalFlushCards(hand);
             for (int i = 0; i < close.Count; i++)
             {
