@@ -122,7 +122,10 @@ namespace PokerTournament
             return pa;
         }
 
-
+        /// <summary>
+        /// Checks how confident the AI should be based upon their hand
+        /// </summary>
+        /// <param name="hand">The five cards the player is currently holding</param>
         private void CheckConfidence(Card[] hand)
         {
             Card highCard;
