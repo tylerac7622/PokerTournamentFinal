@@ -73,7 +73,7 @@ namespace PokerTournament
                 willingCheck = 10;
                 if (pRank == 4)
                 {
-                    willingBet += 5;
+                    willingBet += 0;
                     willingCheck += 5;
                 }
                 else if (pRank == 5)
@@ -154,17 +154,35 @@ namespace PokerTournament
             }
             else if(rank == 7 || rank == 8 || rank == 9 || rank == 10)//low bet, to try and draw the opponent in
             {
-                willingBet = 20;
+                willingBet = 15;
                 willingCheck = -1;
                 if (currentBet > 10)
                 {
                     willingBet = 50;
                 }
             }
+            //adds a desperation mechanic where the ai will bet more money depending on how little money they have
             float desperation = 1000 / player.Money;
             desperation = (float)Math.Pow(desperation, .5f);
             willingBet = (int) (willingBet * desperation);
             willingCheck = (int)(willingCheck * desperation);
+
+            //adds a slight randomness to the ai's bet amounts, to make it harder to narrow down what they are actually doing
+            Random random = new Random();
+            willingBet = (int)(willingBet * ((random.NextDouble() / 5) + .9f)); //multiplied by random double from .9-1.1
+            willingCheck = (int)(willingCheck * ((random.NextDouble() / 5) + .9f)); //uses a different random number from the one above
+            if(willingBet > willingCheck)
+            {
+                willingCheck = willingBet;
+            }
+
+            //limits the possible bet to the amount of money the ai has (all in)
+            if (willingBet > player.Money)
+            {
+                willingBet = player.Money;
+                willingCheck = -1;
+            }
+
             Console.WriteLine("Willing to Bet: " + willingBet);
             Console.WriteLine("Willing to Check: " + willingCheck);
             Console.WriteLine();
