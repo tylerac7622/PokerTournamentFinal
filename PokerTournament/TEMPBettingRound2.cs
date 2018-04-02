@@ -67,7 +67,7 @@ namespace PokerTournament
                         {
                             //valid options if last action was bet for either player are: raise, call, or fold
 
-                            if (confidence > highConfidence)
+                            if (confidence > highConfidence && lastAction.Amount < confidence)
                             {
                                 amount = confidence;
                                 pa = new PlayerAction(player.Name, "Bet2", "raise", amount);
@@ -102,7 +102,7 @@ namespace PokerTournament
                         {
                             //valid options if last action was raise for either player are: raise, call, or fold
 
-                            if (confidence > highConfidence)
+                            if (confidence > highConfidence && lastAction.Amount < confidence)
                             {
                                 amount = confidence;
                                 pa = new PlayerAction(player.Name, "Bet2", "raise", amount);
