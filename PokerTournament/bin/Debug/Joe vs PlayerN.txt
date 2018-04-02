@@ -2,5 +2,116 @@ Starting round 1
 Ante for this round: 10
 Betting round 1:
 Player: PlayerN  |  Action Phase: Bet1
-    bet - 60
+    check
  
+Joe played a bad action of raise and forfeits the hand
+Player: Joe  |  Action Phase: Bet1
+    fold
+ 
+After Bet1, pot is 20
+ 
+Joe folded. Other player gets the pot of 20
+
+After round 1, player status: 
+ Name: Joe Dealer: True Money: 990
+ Name: PlayerN Dealer: False Money: 1010
+ 
+Starting round 2
+Ante for this round: 10
+Betting round 1:
+Player: Joe  |  Action Phase: Bet1
+    bet - 10
+ 
+Player: PlayerN  |  Action Phase: Bet1
+    fold
+ 
+After Bet1, pot is 30
+ 
+PlayerN folded. Other player gets the pot of 30
+
+After round 2, player status: 
+ Name: Joe Dealer: False Money: 1000
+ Name: PlayerN Dealer: True Money: 1000
+ 
+Starting round 3
+Ante for this round: 10
+Betting round 1:
+Player: PlayerN  |  Action Phase: Bet1
+    check
+ 
+Player: Joe  |  Action Phase: Bet1
+    bet - 10
+ 
+Player: PlayerN  |  Action Phase: Bet1
+    fold
+ 
+After Bet1, pot is 30
+ 
+PlayerN folded. Other player gets the pot of 30
+
+After round 3, player status: 
+ Name: Joe Dealer: True Money: 1010
+ Name: PlayerN Dealer: False Money: 990
+ 
+Starting round 4
+Ante for this round: 10
+Betting round 1:
+Player: Joe  |  Action Phase: Bet1
+    check
+ 
+Player: PlayerN  |  Action Phase: Bet1
+    bet - 10
+ 
+Player: Joe  |  Action Phase: Bet1
+    call
+ 
+After Bet1, pot is 40
+ 
+Name: Joe
+Hand Rank: 1 
+Two of Hearts Five of Clubs Six of Diamonds Queen of Diamonds Ace of Clubs 
+
+ 
+Name: PlayerN
+Hand Rank: 1 
+Three of Diamonds Nine of Spades Jack of Spades King of Spades Ace of Diamonds 
+
+ 
+Betting round 2:
+Player: Joe  |  Action Phase: Bet2
+    check
+ 
+Player: PlayerN  |  Action Phase: Bet2
+    check
+ 
+After Bet2, pot is 40
+ 
+PlayerN has a better hand and wins 0
+
+After round 4, player status: 
+ Name: Joe Dealer: False Money: 990
+ Name: PlayerN Dealer: True Money: 1010
+ 
+Starting round 5
+Ante for this round: 10
+Betting round 1:
+Player: PlayerN  |  Action Phase: Bet1
+    check
+ 
+Player: Joe  |  Action Phase: Bet1
+    bet - 10
+ 
+Player: PlayerN  |  Action Phase: Bet1
+    fold
+ 
+After Bet1, pot is 30
+ 
+PlayerN folded. Other player gets the pot of 30
+
+After round 5, player status: 
+ Name: Joe Dealer: True Money: 1000
+ Name: PlayerN Dealer: False Money: 1000
+ 
+Starting round 6
+Ante for this round: 10
+Betting round 1:

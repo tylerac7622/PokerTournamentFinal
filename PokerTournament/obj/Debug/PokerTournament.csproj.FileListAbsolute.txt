@@ -40,3 +40,4 @@ C:\Users\tyler\Documents\GitHub\PokerTournamentFinal\PokerTournament\obj\Debug\P
 C:\Users\tyler\Documents\GitHub\PokerTournamentFinal\PokerTournament\bin\Debug\PokerTournament.exe
 C:\Users\tyler\Documents\GitHub\PokerTournamentFinal\PokerTournament\bin\Debug\PokerTournament.pdb
 C:\Users\tyler\Documents\GitHub\PokerTournamentFinal\PokerTournament\obj\Debug\PokerTournament.csprojResolveAssemblyReference.cache
+Z:\IGMProfile\Desktop\GitHub\PokerTournamentFinal\PokerTournament\obj\Debug\PokerTournament.csproj.CoreCompileInputs.cache
