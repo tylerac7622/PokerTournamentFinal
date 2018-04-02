@@ -72,7 +72,7 @@ namespace PokerTournament
                                 amount = confidence;
                                 pa = new PlayerAction(player.Name, "Bet2", "raise", amount);
                             }
-                            else if(confidence > lowConfidence)
+                            else if(confidence > lowConfidence || currentBet > 75)
                             {
                                 pa = new PlayerAction(player.Name, "Bet2", "call", 0);
                             }
