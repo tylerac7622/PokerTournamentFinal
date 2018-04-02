@@ -23,6 +23,7 @@ namespace PokerTournament
             int amount = 10; //the amount to bet or raise by
             int lowConfidence = 20;
             int highConfidence = 60;
+            int currentBet = AIEvaluate.CurrentBet(actions);
 
             ///Possible actions
             ///  bet - requires amount - cannot bet unless no previous bets in round (going first or only checks before)
@@ -106,7 +107,7 @@ namespace PokerTournament
                                 amount = confidence;
                                 pa = new PlayerAction(player.Name, "Bet2", "raise", amount);
                             }
-                            else if (confidence > lowConfidence)
+                            else if (confidence > lowConfidence || currentBet > 75)
                             {
                                 pa = new PlayerAction(player.Name, "Bet2", "call", 0);
                             }
